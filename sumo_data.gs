@@ -1,7 +1,7 @@
 /**
  * Arquivo: sumo_api_integration.gs
  * Descrição: Script Google Apps Script para integrar a planilha com a API do Sumo.
- * Autor: Gabriel Turco
+ * Autor: Manus AI
  */
 
 // A constante BASHO_ID será agora definida dinamicamente dentro da função updateSumoResults.
