@@ -462,7 +462,10 @@ function updateRikishiList() {
       const startRow = lastFilledRow < FIRST_DATA_ROW ? FIRST_DATA_ROW : lastFilledRow + 1;
       
       // Escreve os novos Rikishi nas Colunas A, B e C
-      sheet.getRange(startRow, TARGET_COLUMN, rikishiToAdd.length, BASHO_COL).setValues(rikishiToAdd);
+      const newRikishiRange = sheet.getRange(startRow, TARGET_COLUMN, rikishiToAdd.length, BASHO_COL);
+      newRikishiRange.setValues(rikishiToAdd);
+      // Adiciona bordas aos novos rikishis (Solicitação do usuário 1)
+      newRikishiRange.setBorder(true, true, true, true, true, true);
     }
     
     // 8. Atualizar a Coluna C para os Rikishi existentes
@@ -572,6 +575,8 @@ function createNewBashoSheet() {
       newSheet.getRange(FIRST_DATA_ROW, RIKISHI_COLUMN_INDEX, newSheetLastRow - FIRST_DATA_ROW + 1, 1).clearContent();
     }
     
+
+    
     // 9. Escrever a lista de Rikishi filtrada na Coluna A da nova aba
     if (filteredRikishi.length > 0) {
       // Insere os Rikishi a partir da Linha 2
@@ -605,6 +610,12 @@ function createNewBashoSheet() {
       // Remove todas as colunas a partir da Coluna B
       newSheet.deleteColumns(RIKISHI_COLUMN_INDEX + 1, lastCol - RIKISHI_COLUMN_INDEX);
     }
+    
+    // CORREÇÃO: Copia o conteúdo das linhas A17 e A18 da aba modelo (Solicitação do usuário 2)
+    // Isso é feito por último para garantir que não seja sobrescrito pela lista de Rikishi.
+    const rangeToCopy = templateSheet.getRange('A17:A18');
+    const destinationRange = newSheet.getRange('A17:A18');
+    rangeToCopy.copyTo(destinationRange, SpreadsheetApp.CopyPasteType.PASTE_NORMAL, false);
     
     ui.alert(`Nova aba "${newSheetName}" criada com sucesso com ${filteredRikishi.length} Rikishi filtrados!`);
     
