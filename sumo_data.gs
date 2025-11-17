@@ -137,8 +137,15 @@ function updateSumoResults() {
     const values = dataRange.getValues();
     
     // 3. Ler a lista de Rikishi (Competidores) da Coluna A
+    // 3. Ler a lista de Rikishi (Competidores) da Coluna A
+    // Encontrar a linha do Win Rate dinamicamente
+    const winRateRowIndex = values.findIndex(row => String(row[RIKISHI_COLUMN_INDEX - 1]).trim() === WIN_RATE_LABEL);
+    
+    // Se não encontrar o rótulo, assume-se que a última linha é o Win Rate (comportamento original)
+    const lastRikishiRowIndex = winRateRowIndex !== -1 ? winRateRowIndex : values.length - 1;
+
     // Ignora o cabeçalho (primeira linha) e a linha do Win Rate (última linha)
-    const rikishiList = values.slice(1, values.length - 1)
+    const rikishiList = values.slice(1, lastRikishiRowIndex)
       .map(row => row[RIKISHI_COLUMN_INDEX - 1]) // Coluna A é o índice 0
       .filter(name => name && String(name).trim() !== '') // Filtra nomes vazios
       .map(name => String(name).trim());
@@ -288,7 +295,8 @@ function processAndWriteResults(sheet, rikishiList, torikumiData, day) {
   }
   
   // 5. Calcular e escrever o Win Rate e Totais de W/L
-  const winRateRow = FIRST_DATA_ROW + rikishiList.length; // Linha logo abaixo do último Rikishi
+  // A linha do Win Rate é a linha logo após o último Rikishi, que é a linha onde o Win Rate deveria estar.
+  const winRateRow = FIRST_DATA_ROW + rikishiList.length;
   
   // Linha Única: Win Rate (W/Total (XX.XX%))
   const winRatePercentage = totalMatches > 0 ? (totalWins / totalMatches) * 100 : 0;
