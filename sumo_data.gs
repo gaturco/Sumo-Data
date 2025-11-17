@@ -11,7 +11,7 @@ const PEPPERONI_COLUMN = 2; // Coluna B (índice 2) - Para marcar com "S"
 const BASHO_LIST_COLUMN = 3; // Coluna C (índice 3)
 const TEMPLATE_SHEET_NAME = "11/2025"; // Nome da aba modelo a ser copiada
 const FIRST_DATA_ROW = 2; // Primeira linha de dados (A2)
-const WIN_RATE_LABEL = "Win Rate"; // Rótulo da última linha a ser preservada
+const WIN_RATE_LABEL = "Win Rate (W/Total)"; // Rótulo da última linha a ser preservada
 
 /**
  * Função auxiliar para obter e validar o ID do Basho a partir do nome da aba.
@@ -611,10 +611,10 @@ function createNewBashoSheet() {
       newSheet.deleteColumns(RIKISHI_COLUMN_INDEX + 1, lastCol - RIKISHI_COLUMN_INDEX);
     }
     
-    // CORREÇÃO: Copia o conteúdo das linhas A17 e A18 da aba modelo (Solicitação do usuário 2)
+    // CORREÇÃO: Copia o conteúdo das linhas A24 e A25 da aba modelo
     // Isso é feito por último para garantir que não seja sobrescrito pela lista de Rikishi.
-    const rangeToCopy = templateSheet.getRange('A17:A18');
-    const destinationRange = newSheet.getRange('A17:A18');
+    const rangeToCopy = templateSheet.getRange('A24:A25');
+    const destinationRange = newSheet.getRange('A24:A25');
     rangeToCopy.copyTo(destinationRange, SpreadsheetApp.CopyPasteType.PASTE_NORMAL, false);
     
     ui.alert(`Nova aba "${newSheetName}" criada com sucesso com ${filteredRikishi.length} Rikishi filtrados!`);
