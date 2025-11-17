@@ -137,7 +137,6 @@ function updateSumoResults() {
     const values = dataRange.getValues();
     
     // 3. Ler a lista de Rikishi (Competidores) da Coluna A
-    // 3. Ler a lista de Rikishi (Competidores) da Coluna A
     // Encontrar a linha do Win Rate dinamicamente
     const winRateRowIndex = values.findIndex(row => String(row[RIKISHI_COLUMN_INDEX - 1]).trim() === WIN_RATE_LABEL);
     
